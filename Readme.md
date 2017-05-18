@@ -66,4 +66,4 @@ Usage
 	CaptchaPool.Stop()
     
 ```
-See detail in file [captcha.go](https://github.com/xkeyideal/captcha/blob/master/captcha/captcha.go)
+See detail in file [captcha.go](https://github.com/xkeyideal/captcha/blob/master/captcha.go)
