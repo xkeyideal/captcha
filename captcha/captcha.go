@@ -2,11 +2,13 @@ package main
 
 import (
 	"captcha/pool"
+	"context"
 	"encoding/base64"
 	"fmt"
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -47,7 +49,10 @@ func GetCaptcha(c *gin.Context) {
 }
 
 func main() {
-	CaptchaPool = pool.NewCaptchaPool(240, 80, 6, 10, 1, 2)
+	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	defer cancel()
+
+	CaptchaPool = pool.NewCaptchaPool(ctx, 240, 80, 6, 2, 2, 2)
 
 	var router *gin.Engine
 
@@ -59,4 +64,6 @@ func main() {
 		fmt.Println("Eagle Eye Server Run Failed: ", err.Error())
 		os.Exit(-1)
 	}
+
+	CaptchaPool.Stop()
 }

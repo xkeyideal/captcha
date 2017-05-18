@@ -20,6 +20,7 @@ Advantages:
 2. Change panic to error, avoid runtime panic
 3. Not inline store interface, can use any store method such as Redis, Memcache, Memory and so on after get captcha image
 4. Use uuid instead of original random id avoid conflict
+5. Add Context to control generate captcha goroutine, can stop generate programming active
 
 
 Examples
@@ -32,15 +33,22 @@ Functions
 
 ### func NewCaptchaPool
 
-	NewCaptchaPool(width, height, wordLength, poolsize, parallelNum, imageType int)
+	NewCaptchaPool(ctx, width, height, wordLength, poolsize, parallelNum, imageType int)
 
 Creates a new captcha pool
 
-width, height: image's width and height
-wordLength: generate words' length
-poolsize: buffer size
-parallelNum: goroutine number
-imageType: PNG or JPEG
+1. ctx context.Background() 
+2. width, height: image's width and height
+3. wordLength: generate words' length
+4. poolsize: buffer size
+5. parallelNum: goroutine number
+6. imageType: PNG or JPEG
+
+### func Stop
+
+	func (p *CaptchaPool) Stop()
+
+Stop CaptchaPool active
 
 Usage
 --------
@@ -51,9 +59,11 @@ Usage
     	Val  []byte
     }
     
-    CaptchaPool = pool.NewCaptchaPool(240, 80, 6, 10, 1, 2)
+    CaptchaPool = pool.NewCaptchaPool(context.Background(), 240, 80, 6, 10, 1, 2)
     
     captchaBody := CaptchaPool.GetImage()
+	
+	CaptchaPool.Stop()
     
 ```
 See detail in file [captcha.go](https://github.com/xkeyideal/captcha/blob/master/captcha/captcha.go)
