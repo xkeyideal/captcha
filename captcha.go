@@ -2,13 +2,11 @@ package main
 
 import (
 	"captcha/pool"
-	"context"
 	"encoding/base64"
 	"fmt"
 	"net/http"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -49,10 +47,7 @@ func GetCaptcha(c *gin.Context) {
 }
 
 func main() {
-	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
-	defer cancel()
-
-	CaptchaPool = pool.NewCaptchaPool(ctx, 240, 80, 6, 2, 2, 2)
+	CaptchaPool = pool.NewCaptchaPool(240, 80, 6, 2, 2, 2)
 
 	var router *gin.Engine
 

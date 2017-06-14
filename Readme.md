@@ -33,16 +33,15 @@ Functions
 
 ### func NewCaptchaPool
 
-	NewCaptchaPool(ctx, width, height, wordLength, poolsize, parallelNum, imageType int)
+	NewCaptchaPool(width, height, wordLength, poolsize, parallelNum, imageType int)
 
 Creates a new captcha pool
 
-1. ctx context.Background() 
-2. width, height: image's width and height
-3. wordLength: generate words' length
-4. poolsize: buffer size
-5. parallelNum: goroutine number
-6. imageType: PNG or JPEG
+1. width, height: image's width and height
+2. wordLength: generate words' length
+3. poolsize: buffer size
+4. parallelNum: goroutine number
+5. imageType: PNG or JPEG
 
 ### func Stop
 
@@ -59,7 +58,7 @@ Usage
     	Val  []byte
     }
     
-    CaptchaPool = pool.NewCaptchaPool(context.Background(), 240, 80, 6, 10, 1, 2)
+    CaptchaPool = pool.NewCaptchaPool(240, 80, 6, 10, 1, 2)
     
     captchaBody := CaptchaPool.GetImage()
 	
@@ -67,3 +66,5 @@ Usage
     
 ```
 See detail in file [captcha.go](https://github.com/xkeyideal/captcha/blob/master/captcha.go)
+
+Golang context can't control goroutine channel will deadlock by using sync.WaitGroup to wait all goroutine return and close channels.
