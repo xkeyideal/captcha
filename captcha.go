@@ -1,12 +1,13 @@
 package main
 
 import (
-	"captcha/pool"
 	"encoding/base64"
 	"fmt"
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/xkeyideal/captcha/pool"
 
 	"github.com/gin-gonic/gin"
 )

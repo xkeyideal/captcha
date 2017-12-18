@@ -23,6 +23,8 @@ Advantages:
 5. Add Context to control generate captcha goroutine, can stop generate programming active
 
 
+`go get github.com/xkeyideal/captcha`
+
 Examples
 --------
 
