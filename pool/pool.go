@@ -28,10 +28,6 @@ type CaptchaPool struct {
 	numWidth  int
 	numHeight int
 	dotSize   int
-
-	//	ctx    context.Context
-	//	cancel context.CancelFunc
-	//	wg     sync.WaitGroup
 }
 
 func NewCaptchaPool(width, height, wordLength, poolsize, parallelNum, imageType int) *CaptchaPool {
@@ -49,11 +45,7 @@ func NewCaptchaPool(width, height, wordLength, poolsize, parallelNum, imageType 
 		numWidth:  numWidth,
 		numHeight: numHeight,
 		dotSize:   dotSize,
-
-		//wg: sync.WaitGroup{},
 	}
-
-	//pool.ctx, pool.cancel = context.WithCancel(ctx)
 
 	go pool.GenRandomWords()
 
@@ -104,20 +96,8 @@ func calculateSizes(width, height, ncount int) (numWidth int, numHeight int, dot
 }
 
 func (p *CaptchaPool) GenRandomWords() {
-	//	defer p.wg.Done()
-
-	//	p.wg.Add(1)
-
 	for {
 		words := randomWords(p.wordLength)
-
-		//		select {
-		//		default:
-		//		case <-p.ctx.Done():
-		//			//fmt.Println("Gen Random Words Stop")
-		//			return
-		//		}
-
 		p.wordsBuffer <- words
 	}
 }
@@ -148,20 +128,9 @@ func (p *CaptchaPool) genImage() (*bytes.Buffer, []byte, error) {
 }
 
 func (p *CaptchaPool) GenImage() {
-	//	defer p.wg.Done()
-
-	//	p.wg.Add(1)
-
 	for {
 
 		imgBytes, words, err := p.genImage()
-
-		//		select {
-		//		default:
-		//		case <-p.ctx.Done():
-		//			//fmt.Println("GenImage Stop", num)
-		//			return
-		//		}
 
 		if err == nil {
 			captchaBody := &CaptchaBody{
@@ -180,13 +149,6 @@ func (p *CaptchaPool) GetImage() *CaptchaBody {
 }
 
 func (p *CaptchaPool) Stop() {
-	//	if p.cancel != nil {
-	//		p.cancel()
-	//		p.cancel = nil
-	//	}
-
-	//	p.wg.Wait()
-
 	close(p.captchaBuffer)
 	close(p.wordsBuffer)
 }
